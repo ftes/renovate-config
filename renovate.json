@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>ftes/renovate-config"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "The Renovate version that validates the presets",
+      "managerFilePatterns": ["/^\\.github/workflows/validate\\.yml$/"],
+      "matchStrings": ["--package (?<depName>renovate)@(?<currentValue>[0-9.]+)"],
+      "datasourceTemplate": "npm"
+    }
+  ]
+}
