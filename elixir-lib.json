@@ -1,0 +1,12 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": ["Hex packages: keep supporting the versions users have"],
+  "extends": ["github>ftes/renovate-config:elixir"],
+  "packageRules": [
+    {
+      "description": "Preserve existing Mix support and propose wider ranges for new releases",
+      "matchManagers": ["mix"],
+      "rangeStrategy": "widen"
+    }
+  ]
+}

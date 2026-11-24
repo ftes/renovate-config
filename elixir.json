@@ -1,0 +1,51 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": ["Elixir repos: toolchain in .tool-versions or mise.toml, Hex deps, Phoenix asset binaries"],
+  "extends": ["github>ftes/renovate-config"],
+  "enabledManagers": ["mix", "github-actions", "asdf", "mise", "custom.regex"],
+  "rangeStrategy": "replace",
+  "constraints": {
+    "erlang": "29"
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["* 0-6 * * 1"]
+  },
+  "packageRules": [
+    {
+      "description": "Keep runtime updates together",
+      "matchManagers": ["asdf", "mise"],
+      "groupName": "toolchain"
+    },
+    {
+      "description": "Preserve Elixir's OTP build compatibility suffix",
+      "matchManagers": ["asdf", "mise"],
+      "matchDepNames": ["elixir"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<compatibility>otp-\\d+)$"
+    },
+    {
+      "description": "Support Erlang's additional patch component",
+      "matchManagers": ["asdf", "mise"],
+      "matchDepNames": ["erlang"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?(?:\\.(?<build>\\d+))?$"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "esbuild binary version installed by the esbuild hex package (downloaded from npm)",
+      "managerFilePatterns": ["/^config/config\\.exs$/"],
+      "matchStrings": ["config :(?<depName>esbuild),\\s*version: \"(?<currentValue>[^\"]+)\""],
+      "datasourceTemplate": "npm"
+    },
+    {
+      "customType": "regex",
+      "description": "Tailwind standalone CLI version installed by the tailwind hex package (downloaded from GitHub releases)",
+      "managerFilePatterns": ["/^config/config\\.exs$/"],
+      "matchStrings": ["config :tailwind,\\s*version: \"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "tailwindlabs/tailwindcss",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.+)$"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": ["Deployed Phoenix apps: mix.lock pins, CI's Postgres matches production"],
+  "extends": ["github>ftes/renovate-config:elixir"],
+  "packageRules": [
+    {
+      "description": "mix.lock already pins exact versions; keep ranges in mix.exs instead of pinning dev/test deps (overrides :pinDevDependencies from config:best-practices)",
+      "matchDepTypes": ["dev"],
+      "rangeStrategy": "replace"
+    },
+    {
+      "description": "CI's Postgres follows production's major (pgautoupgrade in ftes/infra); raise this with infra's major upgrade",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["postgres"],
+      "allowedVersions": "<19"
+    }
+  ]
+}
