@@ -20,6 +20,18 @@ extends one of them and keeps only what is its own:
 Renovate reads these from `main` on every run, without a PR in the repos that use them: a change
 here applies everywhere at once, so CI validates it first.
 
+Each Elixir repo keeps one setting itself, the Erlang major Renovate builds `mix.lock` with, so it
+changes in the same commit as the repo's toolchain pin:
+
+```json
+{
+  "extends": ["github>ftes/renovate-config:elixir-app"],
+  "constraints": { "erlang": "29" }
+}
+```
+
+On an Erlang major bump, raise it there together with Elixir's `-otp-N` suffix, which Renovate
+never moves: the versioning keeps the suffix as a compatibility marker.
+
 When production's Postgres moves to a new major (ftes/infra), raise `allowedVersions` in
-`elixir-app.json`. When the repos move to a new Erlang major, raise `constraints` in
-`elixir.json` (a repo can override it while it catches up).
+`elixir-app.json`.
