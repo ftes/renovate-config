@@ -19,7 +19,7 @@
   ],
   "packageRules": [
     {
-      "description": "The shared actions are the owner's own: one PR per release, at any time, without the usual waiting period.",
+      "description": "The shared actions are the owner's own: a PR per release, at any time. The repos then wait an hour, and the ones below longer, so a release's CI reaches them in waves instead of all at once; wave 1 is every repo the waves don't name (infra, playwright_ex).",
       "matchManagers": [
         "github-actions"
       ],
@@ -30,7 +30,60 @@
       "schedule": [
         "at any time"
       ],
-      "minimumReleaseAge": null
+      "minimumReleaseAge": "1 hour"
+    },
+    {
+      "description": "Wave 2 of an ftes/ci release.",
+      "matchRepositories": [
+        "ftes/phoenix_test_playwright"
+      ],
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "ftes/ci"
+      ],
+      "minimumReleaseAge": "2 hours"
+    },
+    {
+      "description": "Wave 3 of an ftes/ci release.",
+      "matchRepositories": [
+        "ftes/fluffy"
+      ],
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "ftes/ci"
+      ],
+      "minimumReleaseAge": "3 hours"
+    },
+    {
+      "description": "Wave 4 of an ftes/ci release.",
+      "matchRepositories": [
+        "ftes/spraywall"
+      ],
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "ftes/ci"
+      ],
+      "minimumReleaseAge": "4 hours"
+    },
+    {
+      "description": "Wave 5 of an ftes/ci release.",
+      "matchRepositories": [
+        "ftes/clickr",
+        "ftes/bogengaudi_ex"
+      ],
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "ftes/ci"
+      ],
+      "minimumReleaseAge": "5 hours"
     },
     {
       "description": "Renovate merges an ftes/ci release that isn't a major once the repo's checks pass: each repo's CI is the integration test of the release. Majors wait for review.",

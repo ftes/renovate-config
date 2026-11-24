@@ -12,7 +12,7 @@ extends one of them and keeps only what is its own:
 
 | Preset | For |
 |---|---|
-| `github>ftes/renovate-config` | every repo: pinned digests, weekly PRs early Monday morning (Berlin), ftes/ci releases merged once green |
+| `github>ftes/renovate-config` | every repo: pinned digests, weekly PRs early Monday morning (Berlin), ftes/ci releases merged once green, in hourly waves of repos |
 | `github>ftes/renovate-config:elixir` | Elixir repos: toolchain in `.tool-versions` or `mise.toml`, Hex, esbuild and Tailwind |
 | `github>ftes/renovate-config:elixir-lib` | Hex packages: wider ranges, so users' versions stay supported |
 | `github>ftes/renovate-config:elixir-app` | deployed apps: dev deps by range, CI's Postgres on production's major |
