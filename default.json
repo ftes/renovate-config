@@ -1,0 +1,52 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": [
+    "Every repo: pinned digests, weekly PRs at night, nothing merges on its own except ftes/ci"
+  ],
+  "extends": [
+    "config:best-practices",
+    "helpers:pinGitHubActionDigestsToSemver"
+  ],
+  "timezone": "Europe/Berlin",
+  "schedule": [
+    "* 0-6 * * 1"
+  ],
+  "minimumReleaseAge": "2 days",
+  "osvVulnerabilityAlerts": true,
+  "automerge": false,
+  "gitIgnoredAuthors": [
+    "41898282+github-actions[bot]@users.noreply.github.com"
+  ],
+  "packageRules": [
+    {
+      "description": "The shared actions are the owner's own: one PR per release, at any time, without the usual waiting period.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "ftes/ci"
+      ],
+      "groupName": "ftes/ci",
+      "schedule": [
+        "at any time"
+      ],
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "Renovate merges an ftes/ci release that isn't a major once the repo's checks pass: each repo's CI is the integration test of the release. Majors wait for review.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "ftes/ci"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "automerge": true,
+      "platformAutomerge": false
+    }
+  ]
+}
