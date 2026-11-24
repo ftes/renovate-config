@@ -22,3 +22,22 @@ jobs:
           node-version: 24
       # Presets resolve from main when a repo runs, so a broken one here breaks every repo's Renovate.
       - run: npx --yes --package renovate@44.259.1 -- renovate-config-validator --strict default.json elixir.json elixir-lib.json elixir-app.json renovate.json
+
+  # The check the `main` ruleset requires, as in ftes's other repos: passes once every job passed.
+  quality:
+    name: quality
+    if: always()
+    needs: validate
+    runs-on: ubicloud-standard-2-ubuntu-2604
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          for result in $RESULTS; do
+            if [ "$result" != success ]; then
+              echo "::error::A required job finished with: $result"
+              exit 1
+            fi
+          done
