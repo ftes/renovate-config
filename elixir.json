@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "Elixir repos: toolchain in .tool-versions or mise.toml, Hex deps, Phoenix asset binaries. Each repo sets `constraints.erlang` itself, next to the pin it has to match."
+    "Elixir repos: toolchain in .tool-versions or mise.toml, Hex deps, Phoenix asset binaries. Each repo sets `constraints.erlang` itself, next to the pin it has to match.",
+    "No dockerfile or docker-compose manager: a repo's elixir-image workflow (ftes/ci) keeps the Dockerfile on the toolchain, and no repo runs anything from docker-compose in CI or production."
   ],
   "extends": [
     "github>ftes/renovate-config"
@@ -50,6 +51,22 @@
         "erlang"
       ],
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?(?:\\.(?<build>\\d+))?$"
+    },
+    {
+      "description": "An Erlang major needs two edits Renovate can't make: Elixir's -otp-N suffix (the versioning keeps it) and the repo's constraints.erlang",
+      "matchManagers": [
+        "asdf",
+        "mise"
+      ],
+      "matchDepNames": [
+        "erlang"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "prBodyNotes": [
+        "**Before merging:** raise Elixir's `-otp-N` suffix to this Erlang major in the same file, and `constraints.erlang` in renovate.json, which Renovate builds mix.lock with."
+      ]
     }
   ],
   "customManagers": [
