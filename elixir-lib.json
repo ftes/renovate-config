@@ -2,6 +2,16 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": ["Hex packages: keep supporting the versions users have"],
   "extends": ["github>ftes/renovate-config:elixir"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "The ftes/ci commit scripts/release fetches the release script at",
+      "managerFilePatterns": ["/^scripts/release$/"],
+      "matchStrings": ["ref=(?<currentDigest>[0-9a-f]{40}) # (?<currentValue>v\\d+\\.\\d+\\.\\d+)"],
+      "depNameTemplate": "ftes/ci",
+      "datasourceTemplate": "github-tags"
+    }
+  ],
   "packageRules": [
     {
       "description": "Preserve existing Mix support and propose wider ranges for new releases",

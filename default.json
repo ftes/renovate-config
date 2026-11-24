@@ -19,9 +19,10 @@
   ],
   "packageRules": [
     {
-      "description": "The shared actions are the owner's own: one PR per release, at any time, without the usual waiting period.",
+      "description": "The shared actions (and the release script libraries fetch) are the owner's own: one PR per release, at any time, without the usual waiting period.",
       "matchManagers": [
-        "github-actions"
+        "github-actions",
+        "custom.regex"
       ],
       "matchPackageNames": [
         "ftes/ci"
@@ -35,7 +36,8 @@
     {
       "description": "Renovate merges an ftes/ci release that isn't a major once the repo's checks pass: each repo's CI is the integration test of the release. Majors wait for review.",
       "matchManagers": [
-        "github-actions"
+        "github-actions",
+        "custom.regex"
       ],
       "matchPackageNames": [
         "ftes/ci"
